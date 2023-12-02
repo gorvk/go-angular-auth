@@ -4,33 +4,38 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/gorvk/angular-go-auth/server/util"
 )
 
 const wrongPlaceMessage = "bad request"
 const wrongMethodMessage = "method not allowed"
 
 func Login(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodPost {
+	handleResponse(w, r, http.MethodPost, func() {
 		d, err := io.ReadAll(r.Body)
-		handleIfHttpError(err, w, wrongPlaceMessage, http.StatusBadRequest)
+		util.HandleIfHttpError(err, w, wrongPlaceMessage, http.StatusBadRequest)
 		fmt.Fprintf(w, "Please login to your account %s", d)
-		return
-	}
-	http.Error(w, wrongMethodMessage, http.StatusMethodNotAllowed)
+	})
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodPost {
+	handleResponse(w, r, http.MethodPost, func() {
 		d, err := io.ReadAll(r.Body)
-		handleIfHttpError(err, w, wrongPlaceMessage, http.StatusBadRequest)
+		util.HandleIfHttpError(err, w, wrongPlaceMessage, http.StatusBadRequest)
 		fmt.Fprintf(w, "Please create your account %s", d)
+	})
+}
+
+func enableCORS(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:4200")
+}
+
+func handleResponse(w http.ResponseWriter, r *http.Request, methodType string, handler func()) {
+	if r.Method == methodType {
+		enableCORS(w)
+		handler()
 		return
 	}
 	http.Error(w, wrongMethodMessage, http.StatusMethodNotAllowed)
-}
-
-func handleIfHttpError(err error, w http.ResponseWriter, errorMsg string, code int) {
-	if err != nil {
-		http.Error(w, errorMsg, code)
-	}
 }

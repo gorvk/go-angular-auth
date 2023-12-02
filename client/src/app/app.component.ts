@@ -8,33 +8,35 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class AppComponent {
-  public userData: User[] = []
-  public URL = "http://localhost:3333/"
-  // public URL = "http://localhost:3333/register"
-  // public URL = "http://localhost:3333/nf"
-  
-  
-  constructor(private httpClient: HttpClient){}
-  
+  public userData: string = "loading...";
+  public URL = "";
+  public buttonLabel = "create new account";
+  constructor(private httpClient: HttpClient) { }
+
   public ngOnInit() {
-    this.httpClient.get(this.URL).subscribe((res) => {
-      const response = res as Response;
-      this.userData = response.Data
-    },
-    err => {
-      this.userData = err.error.Data      
+    this.getAuthPageData("http://localhost:9090");
+  }
+
+  private getAuthPageData(url: string) {
+    this.userData = "loading...";
+    this.httpClient.post(url, "GK 👨‍💻", { responseType: "text" }).subscribe({
+      next: (res) => {
+        this.userData = res;
+      },
+      error: err => {
+        this.userData = err.statusText;
+      }
     })
   }
-}
 
-interface User {
-  Id: number, 
-  Firstname: string, 
-  Lastname: string
-}
-
-interface Response {
-  Success: boolean,
-  StatusCode: number,
-  Data: any[]
+  switchAuth(event: Event) {
+    event.preventDefault();
+    if (this.buttonLabel === "login to your account") {
+      this.buttonLabel = "create new account";
+      this.getAuthPageData("http://localhost:9090");
+    } else {
+      this.buttonLabel = "login to your account";
+      this.getAuthPageData("http://localhost:9090/register");
+    }
+  }
 }

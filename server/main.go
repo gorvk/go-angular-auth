@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	routes.SetupRoutes()
+	routes.Setup()
 	configureListenAndServe()
 }
 
