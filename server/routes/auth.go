@@ -7,6 +7,6 @@ import (
 )
 
 func Setup() {
-	http.HandleFunc("/", controllers.Login)
+	http.HandleFunc("/login", controllers.Login)
 	http.HandleFunc("/register", controllers.Register)
 }
