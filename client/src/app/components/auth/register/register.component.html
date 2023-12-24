@@ -2,22 +2,22 @@
 
 <form [formGroup]="registerForm" method="post" class="registerForm" (submit)="registerUser($event)">
     <div class="input-containers">
-        <label for="username">
+        <label class="register-label" for="username">
             username
         </label>
-        <input id="username" type="text" formControlName="username">
+        <input class="register-input" id="username" type="text" formControlName="username">
     </div>
     <div class="input-containers">
-        <label for="password">
+        <label class="register-label" for="password">
             password
         </label>
-        <input id="password" type="password" formControlName="password">
+        <input class="register-input" id="password" type="password" formControlName="password">
     </div>
     <div class="input-containers">
-        <label for="age">
+        <label class="register-label" for="age">
             age
         </label>
-        <input id="age" type="number" formControlName="age">
+        <input class="register-input" id="age" type="number" formControlName="age">
     </div>
     <div class="input-containers">
         <input type="submit" value="register user">
