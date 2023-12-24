@@ -8,12 +8,12 @@ import { urlConstant } from 'src/app/UrlConstants';
 })
 export class AuthService {
   constructor(private httpClient: HttpClient) { }
-  
+
   public getLoginPageData(): Observable<string> {
     return this.httpClient.post(urlConstant.login, "GK 👨‍💻", { responseType: "text" })
   }
 
-  public getRegisterPageData(): Observable<string> {
-    return this.httpClient.post(urlConstant.register, "NK 👨‍💻", { responseType: "text" })
+  public registerUser(user: any): Observable<any> {
+    return this.httpClient.post(urlConstant.register, user)
   }
 }

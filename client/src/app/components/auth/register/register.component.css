@@ -1,0 +1,10 @@
+.registerForm {
+    width: 20%;
+    margin-bottom: 20px;
+}
+
+.input-containers {
+    display: flex;
+    justify-content: space-between;
+    margin-block: 10px;
+}
